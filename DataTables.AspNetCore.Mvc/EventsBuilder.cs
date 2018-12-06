@@ -31,7 +31,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <param name="key"></param>
         /// <param name="parameters"></param>
         /// <param name="fn"></param>
-        private void Add(string key, string parameters, string fn)
+        public EventsBuilder Add(string key, string parameters, string fn)
         {
             if (!this.events.ContainsKey(key))
             {
@@ -39,6 +39,8 @@ namespace DataTables.AspNetCore.Mvc
                 this.events[key].Add(parameters);
             }
             this.events[key].Add(fn);
+
+            return this;
         }
 
         /// <summary>
@@ -62,6 +64,30 @@ namespace DataTables.AspNetCore.Mvc
             this.Add("deselect", "(e,dt,type,indexes)", name);
             return this;
         }
+
+        /// <summary>
+        /// Ajax event - fired before an Ajax request is made.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public EventsBuilder AjaxBefore(string name)
+        {
+            Add("preXhr.dt", "(e, settings, json, xhr)", "preXhr");
+            
+            return this;
+        }
+        
+        /// <summary>
+        /// Ajax event - fired when an Ajax request is completed.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public EventsBuilder AjaxAfter(string name)
+        {
+            Add("xhr.dt", "(e, settings, json, xhr)", "postXhr");
+            return this;
+        }
+
 
         /// <summary>
         /// Writes the content by encoding it with the specified encoder to the specified writer

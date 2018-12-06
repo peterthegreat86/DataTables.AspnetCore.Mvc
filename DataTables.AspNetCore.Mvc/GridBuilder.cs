@@ -7,6 +7,7 @@ using System.Text.Encodings.Web;
 using System.Linq;
 using System.ComponentModel;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace DataTables.AspNetCore.Mvc
 {
@@ -367,6 +368,17 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// Change the options in the page length select list.
+        /// </summary>
+        /// <param name="languages"></param>
+        /// <returns></returns>
+        public GridBuilder<T> LengthMenu(string str)
+        {
+            Grid.LengthMenu = str;
+            return this;
+        }
+
+        /// <summary>
         /// Writes the content by encoding it with the specified encoder to the specified writer
         /// </summary>
         /// <param name="writer">The <see cref="TextWriter"/> to which the content is written.</param>
@@ -413,6 +425,9 @@ namespace DataTables.AspNetCore.Mvc
             if (this.GridButtonsFactory != null) jObject.Add("buttons", this.GridButtonsFactory.ToJToken());
             if (this.ColumnDefsFactory != null) jObject.Add("columnDefs", this.ColumnDefsFactory.ToJToken());
             if (this.ColumnsFactory != null) jObject.Add("columns", this.ColumnsFactory.ToJToken());
+            if (this.Grid.LengthMenu != null) jObject.Add("lengthMenu", new JValue(JsonConvert.DeserializeObject(this.Grid.LengthMenu)));
+
+
             writer.Write(jObject.ToString(Newtonsoft.Json.Formatting.None));
             writer.Write(");");
 

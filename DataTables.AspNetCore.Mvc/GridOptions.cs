@@ -86,5 +86,7 @@
         /// Feature control search (filtering) abilities.
         /// </summary>
         public bool Searching { get; set; } = true;
+
+        public string LengthMenu { get; set; }
     }
 }
