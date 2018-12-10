@@ -88,5 +88,6 @@
         public bool Searching { get; set; } = true;
 
         public string LengthMenu { get; set; }
+        public string InitComplete { get; set; }
     }
 }

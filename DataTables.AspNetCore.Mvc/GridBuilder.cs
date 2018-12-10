@@ -20,7 +20,7 @@ namespace DataTables.AspNetCore.Mvc
         /// <summary>
         /// Initialize a new instance of <see cref="GridBuilder{T}"/>
         /// </summary>
-        public GridBuilder() 
+        public GridBuilder()
         {
             this.Grid = new GridOptions<T>();
         }
@@ -58,10 +58,17 @@ namespace DataTables.AspNetCore.Mvc
         /// Gets or sets the events builder
         /// </summary>
         private EventsBuilder EventsBuilder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the options builder
+        /// </summary>
+        private CallbacksBuilder CallbacksBuilder { get; set; }
+
         /// <summary>
         /// Gets or sets the language builder
         /// </summary>
         private LanguageBuilder LanguageBuilder { get; set; }
+
         #endregion
 
         /// <summary>
@@ -342,6 +349,18 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// Sets the callbacks of dataTable
+        /// </summary>
+        /// <param name="callbacks"></param>
+        /// <returns></returns>
+        public GridBuilder<T> Callbacks(Action<CallbacksBuilder> callbacks)
+        {
+            this.CallbacksBuilder = new CallbacksBuilder();
+            callbacks.Invoke(this.CallbacksBuilder);
+            return this;
+        }
+
+        /// <summary>
         /// DataSources
         /// </summary>
         /// <param name="config"></param>
@@ -401,10 +420,15 @@ namespace DataTables.AspNetCore.Mvc
             writer.Write("<script>$(function(){");
             writer.Write($"var g=$('#{this.Grid.Name}');var dt=g.DataTable(");
 
+
+
             JObject jObject = new JObject();
             if (!string.IsNullOrEmpty(this.Grid.RowId)) jObject.Add("rowId", new JValue(this.Grid.RowId));
             if (!string.IsNullOrEmpty(this.Grid.Dom)) jObject.Add("dom", new JValue(this.Grid.Dom));
             if (!this.Grid.AutoWidth) jObject.Add("autoWidth", new JValue(false));
+
+
+
             if (!this.Grid.Searching) jObject.Add("searching", new JValue(false));
             if (this.Grid.StateSave) jObject.Add("stateSave", new JValue(true));
             if (!this.Grid.Paging) jObject.Add("paging", new JValue(false));
@@ -425,16 +449,22 @@ namespace DataTables.AspNetCore.Mvc
             if (this.GridButtonsFactory != null) jObject.Add("buttons", this.GridButtonsFactory.ToJToken());
             if (this.ColumnDefsFactory != null) jObject.Add("columnDefs", this.ColumnDefsFactory.ToJToken());
             if (this.ColumnsFactory != null) jObject.Add("columns", this.ColumnsFactory.ToJToken());
-            if (this.Grid.LengthMenu != null) jObject.Add("lengthMenu", new JValue(JsonConvert.DeserializeObject(this.Grid.LengthMenu)));
+            //if (this.Grid.LengthMenu != null) jObject.Add("lengthMenu", new JValue(JsonConvert.DeserializeObject(this.Grid.LengthMenu)));
+
+            if (this.CallbacksBuilder != null)
+                CallbacksBuilder.ToJObject().ForEach(c => jObject.Add(c));
+            //CallbacksBuilder.WriteTo(writer, encoder);
 
 
             writer.Write(jObject.ToString(Newtonsoft.Json.Formatting.None));
             writer.Write(");");
 
+
             if (this.EventsBuilder != null) this.EventsBuilder.WriteTo(writer, encoder);
+
             if (withClick)
             {
-                writer.Write("var fn=[" + string.Join(",",this.ColumnsFactory.Columns.Select(e => e.Column.Click)) + "];");
+                writer.Write("var fn=[" + string.Join(",", this.ColumnsFactory.Columns.Select(e => e.Column.Click)) + "];");
                 writer.Write("g.on('click','button',function(){var row=dt.row($(this).parents('tr'));var i=dt.column($(this).parents('td')).index();if (fn.length>i){fn[i]({data:$(this).data(),rowid:row.id(),row:row.data()});}});");
                 writer.Write("});</script>");
             }
@@ -442,6 +472,11 @@ namespace DataTables.AspNetCore.Mvc
             {
                 writer.Write("});</script>");
             }
+
+
+
+
+
         }
     }
 }
