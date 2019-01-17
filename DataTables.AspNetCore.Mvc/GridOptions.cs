@@ -67,6 +67,12 @@
         /// </summary>
         public bool ScrollX { get; set; }
 
+
+        /// <summary>
+        /// Horizontal scrolling
+        /// </summary>
+        public string ScrollXString { get; set; }
+
         /// <summary>
         /// Feature control the processing indicator.
         /// </summary>

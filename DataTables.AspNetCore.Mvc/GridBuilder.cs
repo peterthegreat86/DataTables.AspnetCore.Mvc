@@ -239,6 +239,17 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// Horizontal scrolling.
+        /// </summary>
+        /// <param name="scrollX"></param>
+        /// <returns></returns>
+        public GridBuilder<T> ScrollX(string scrollX)
+        {
+            this.Grid.ScrollXString = scrollX;
+            return this;
+        }
+
+        /// <summary>
         /// Vertical scrolling.
         /// </summary>
         /// <param name="scrollY"></param>
@@ -439,6 +450,7 @@ namespace DataTables.AspNetCore.Mvc
             if (this.Grid.ScrollCollapse) jObject.Add("scrollCollapse", new JValue(true));
             if (this.Grid.ScrollX) jObject.Add("scrollX", new JValue(true));
             if (!string.IsNullOrEmpty(this.Grid.ScrollY)) jObject.Add($"scrollY", new JValue(this.Grid.ScrollY));
+            if (!string.IsNullOrEmpty(this.Grid.ScrollXString)) jObject.Add($"scrollX", new JValue(this.Grid.ScrollXString));
             if (this.Grid.Processing) jObject.Add("processing", new JValue(true));
             if (this.Grid.ServerSide) jObject.Add("serverSide", new JValue(true));
             if (this.Grid.DeferRender) jObject.Add("deferRender", new JValue(true));
