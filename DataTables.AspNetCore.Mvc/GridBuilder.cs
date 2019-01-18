@@ -105,6 +105,16 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// https://datatables.net/extensions/fixedheader/
+        /// </summary>
+        /// <param name="fixedHeader"></param>
+        /// <returns></returns>
+        public GridBuilder<T> FixedHeader(bool fixedHeader)
+        {
+            this.Grid.FixedHeader = fixedHeader;
+            return this;
+        }
+        /// <summary>
         /// Feature control deferred rendering for additional speed of initialisation.
         /// </summary>
         /// <param name="deferRender"></param>
@@ -427,8 +437,8 @@ namespace DataTables.AspNetCore.Mvc
             if (!string.IsNullOrEmpty(this.Grid.Dom)) jObject.Add("dom", new JValue(this.Grid.Dom));
             if (!this.Grid.AutoWidth) jObject.Add("autoWidth", new JValue(false));
 
-
-
+            if (this.Grid.FixedHeader) jObject.Add("fixedHeader", new JValue(true));
+            
             if (!this.Grid.Searching) jObject.Add("searching", new JValue(false));
             if (this.Grid.StateSave) jObject.Add("stateSave", new JValue(true));
             if (!this.Grid.Paging) jObject.Add("paging", new JValue(false));

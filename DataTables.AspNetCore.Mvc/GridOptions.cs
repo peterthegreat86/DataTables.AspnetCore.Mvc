@@ -82,6 +82,10 @@
         /// </summary>
         public bool AutoWidth { get; set; } = true;
 
+
+        public bool FixedHeader { get; set; }
+
+
         /// <summary>
         /// Feature control search (filtering) abilities.
         /// </summary>
