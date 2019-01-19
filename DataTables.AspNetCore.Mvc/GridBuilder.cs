@@ -435,7 +435,7 @@ namespace DataTables.AspNetCore.Mvc
             //        document.write('<table id="example" class="display" cellspacing="0" width="100%"></table>')
             //      }
             //</ script >
-            writer.Write($"<script type=\"text/javascript\">if ($(\"{this.Grid.Name}\").length==0){{document.write('<table id=\"{this.Grid.Name}\" class=\"display\" cellspacing=\"0\" width=\"100%\"></table>')}}</script>");
+            writer.Write($"<script type=\"text/javascript\">if ($(\"#{this.Grid.Name}\").length==0){{document.write('<table id=\"{this.Grid.Name}\" class=\"display\" cellspacing=\"0\" width=\"100%\"></table>')}}</script>");
 
             // Datables.Net
             writer.Write("<script>$(function(){");
