@@ -91,6 +91,8 @@
 
         public bool FixedHeader { get; set; }
 
+        public bool Responsive { get; set; }
+
 
         /// <summary>
         /// Feature control search (filtering) abilities.

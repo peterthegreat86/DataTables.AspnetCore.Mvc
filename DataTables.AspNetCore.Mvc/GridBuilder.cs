@@ -114,6 +114,19 @@ namespace DataTables.AspNetCore.Mvc
             this.Grid.FixedHeader = fixedHeader;
             return this;
         }
+
+        /// <summary>
+        /// Responsive
+        /// </summary>
+        /// <param name="responsive"></param>
+        /// <returns></returns>
+        public GridBuilder<T> Responsive(bool responsive)
+        {
+            this.Grid.Responsive = responsive;
+            return this;
+        }
+
+
         /// <summary>
         /// Feature control deferred rendering for additional speed of initialisation.
         /// </summary>
@@ -449,7 +462,9 @@ namespace DataTables.AspNetCore.Mvc
             if (!this.Grid.AutoWidth) jObject.Add("autoWidth", new JValue(false));
 
             if (this.Grid.FixedHeader) jObject.Add("fixedHeader", new JValue(true));
-            
+
+            if (this.Grid.Responsive) jObject.Add("responsive", new JValue(true));
+
             if (!this.Grid.Searching) jObject.Add("searching", new JValue(false));
             if (this.Grid.StateSave) jObject.Add("stateSave", new JValue(true));
             if (!this.Grid.Paging) jObject.Add("paging", new JValue(false));
