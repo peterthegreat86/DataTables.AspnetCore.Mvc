@@ -423,7 +423,6 @@ namespace DataTables.AspNetCore.Mvc
         /// <summary>
         /// Change the options in the page length select list.
         /// </summary>
-        /// <param name="languages"></param>
         /// <returns></returns>
         public GridBuilder<T> LengthMenu(string str)
         {
