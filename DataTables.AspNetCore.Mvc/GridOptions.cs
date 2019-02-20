@@ -1,4 +1,6 @@
-﻿namespace DataTables.AspNetCore.Mvc
+﻿using Newtonsoft.Json.Linq;
+
+namespace DataTables.AspNetCore.Mvc
 {
     class GridOptions<T> where T : class
     {
@@ -101,5 +103,6 @@
 
         public string LengthMenu { get; set; }
         public string InitComplete { get; set; }
+        public int? StateDuration { get; set; }
     }
 }

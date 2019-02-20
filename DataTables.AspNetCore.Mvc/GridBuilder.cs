@@ -163,6 +163,17 @@ namespace DataTables.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// State duration - Saved state validity duration.
+        /// </summary>
+        /// <param name="duration"></param>
+        /// <returns></returns>
+        public GridBuilder<T> StateDuration(int duration)
+        {
+            this.Grid.StateDuration = duration;
+            return this;
+        }
+
+        /// <summary>
         /// Feature control search (filtering) abilities.
         /// </summary>
         /// <param name="searching"></param>
@@ -466,6 +477,9 @@ namespace DataTables.AspNetCore.Mvc
 
             if (!this.Grid.Searching) jObject.Add("searching", new JValue(false));
             if (this.Grid.StateSave) jObject.Add("stateSave", new JValue(true));
+
+            if (this.Grid.StateDuration != null) jObject.Add("stateDuration", new JValue(Grid.StateDuration.Value));
+
             if (!this.Grid.Paging) jObject.Add("paging", new JValue(false));
             if (this.Grid.PagingType != DataTables.AspNetCore.Mvc.PagingType.Simple_numbers) jObject.Add($"pagingType", new JValue(this.Grid.PagingType.ToString().ToLower()));
             if (!this.Grid.Ordering) jObject.Add("ordering", new JValue(false));
